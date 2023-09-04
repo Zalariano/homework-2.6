@@ -28,8 +28,6 @@ public class EmployeService {
         return newEmploye;
     }
 
-    ;
-
     public Employe delete(String firstName, String lastName) {
         Employe employeForDelete = new Employe(firstName, lastName);
         if (!employes.contains(employeForDelete)) {
@@ -38,8 +36,6 @@ public class EmployeService {
         employes.remove(employeForDelete);
         return employeForDelete;
     }
-
-    ;
 
     public Employe find(String firstName, String lastName) {
         Employe employeLookingFor = new Employe(firstName, lastName);
