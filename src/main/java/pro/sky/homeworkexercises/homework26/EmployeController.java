@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.homeworkexercises.homework26.service.EmployeService;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,7 @@ public class EmployeController {
     }
 
     @GetMapping
-    public List<Employe> getAll() {
+    public Collection<Employe> getAll() {
         return employeService.getAll();
     }
 

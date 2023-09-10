@@ -6,49 +6,51 @@ import pro.sky.homeworkexercises.homework26.exceptions.EmployeeAlreadyAddedExcep
 import pro.sky.homeworkexercises.homework26.exceptions.EmployeeNotFoundException;
 import pro.sky.homeworkexercises.homework26.exceptions.EmployeeStorageIsFullException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 
 public class EmployeService {
 
     private final static int MAX_SIZE = 10;
-    private final List<Employe> employes = new ArrayList<>();
+    private final Map<String, Employe> employes = new HashMap<>();
 
     public Employe add(String firstName, String lastName) {
         if (employes.size() > MAX_SIZE) {
             throw new EmployeeStorageIsFullException("Массив сотрудников переполнен");
         }
-        Employe newEmploye = new Employe(firstName, lastName);
-        if (employes.contains(newEmploye)) {
+        String key = getKey(firstName, lastName);
+        if (employes.containsKey(key)) {
             throw new EmployeeAlreadyAddedException("Сотрудник уже добавлен");
         }
-        employes.add(newEmploye);
+        Employe newEmploye = new Employe(firstName, lastName);
+        employes.put(key, newEmploye);
         return newEmploye;
     }
 
     public Employe delete(String firstName, String lastName) {
-        Employe employeForDelete = new Employe(firstName, lastName);
-        if (!employes.contains(employeForDelete)) {
+        String key = getKey(firstName, lastName);
+        Employe employeForDelete = employes.get(key);
+        if (!employes.containsKey(key)) {
             throw new EmployeeNotFoundException("Такого сотрудника нет в списке");
         }
-        employes.remove(employeForDelete);
+        employes.remove(key);
         return employeForDelete;
     }
 
     public Employe find(String firstName, String lastName) {
-        Employe employeLookingFor = new Employe(firstName, lastName);
-        Employe result = null;
-        for (Employe employe : employes) {
-            if (employe.equals(employeLookingFor)) {
-                return employe;
-            }
+        String key = getKey(firstName, lastName);
+        if (!employes.containsKey(key)) {
+            throw new EmployeeNotFoundException("Такого сотрудника нет в списке");
         }
-        return result;
+        return employes.get(key);
     }
 
-    public List<Employe> getAll() {
-        return employes;
+    public Collection<Employe> getAll() {
+        return employes.values();
+    }
+
+    public String getKey(String firstName, String lastName) {
+        return firstName + lastName;
     }
 }
