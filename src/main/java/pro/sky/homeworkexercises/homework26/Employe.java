@@ -1,14 +1,32 @@
 package pro.sky.homeworkexercises.homework26;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Employe {
-    String firsName;
-    String lastName;
+    private final String firsName;
+    private final String lastName;
+    private final int department;
+    private int salary;
+
+    public int getDepartment() {
+        return department;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
 
     public Employe(String firsName, String lastName) {
+        Random random = new Random();
         this.firsName = firsName;
         this.lastName = lastName;
+        this.salary = random.nextInt(10000) + 1000;
+        this.department = random.nextInt(2) + 1;
     }
 
     public String getFirsName() {
