@@ -1,9 +1,7 @@
 package pro.sky.homeworkexercises.homework26;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 import pro.sky.homeworkexercises.homework26.service.EmployeService;
 
 import java.util.Collection;
@@ -13,6 +11,11 @@ import java.util.List;
 @RequestMapping("/employe")
 
 public class EmployeController {
+
+    @ExceptionHandler({HttpStatusCodeException.class})
+    public String handleException(HttpStatusCodeException e){
+        return " Code: " + e.getStatusCode() + ". Error: " + e.getMessage();
+    }
     private final EmployeService employeService;
 
     public EmployeController(EmployeService employeService) {
