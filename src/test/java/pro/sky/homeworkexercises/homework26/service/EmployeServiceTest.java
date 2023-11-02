@@ -132,12 +132,11 @@ class EmployeServiceTest {
     @Test
     void getAll_success() {
 
-        Map<Integer, List<Employe>> expectedMap = new HashMap<>();
-        expectedMap.put(FIRSTDEPARTMENT_ID, Arrays.asList(getEmploye(), getEmploye2()));
-        expectedMap.put(SECOND_DEPARTMENT_ID, Arrays.asList(getEmploye3()));
+        List<Employe> expectedList = new ArrayList<>();
 
-        Map<Integer, List<Employe>> actualMap = employeService.getAll();
-        assertEquals(expectedMap, actualMap);
+
+        List<Employe> actualList = employeService.getAll();
+        assertEquals(expectedList, actualList);
 
 
 
