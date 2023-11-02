@@ -1,16 +1,30 @@
 package pro.sky.homeworkexercises.homework26;
 
 import java.util.Objects;
-import java.util.Random;
 
 public class Employe {
     private final String firsName;
     private final String lastName;
-    private final int department;
+    private final int departmentId;
     private int salary;
 
-    public int getDepartment() {
-        return department;
+    public Employe(String firsName, String lastName,int salary,int departmentId) {
+        this.firsName = firsName;
+        this.lastName = lastName;
+        this.salary = salary;
+        this.departmentId = departmentId;
+    }
+
+    public String getFirsName() {
+        return firsName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
     }
 
     public int getSalary() {
@@ -21,21 +35,6 @@ public class Employe {
         this.salary = salary;
     }
 
-    public Employe(String firsName, String lastName) {
-        Random random = new Random();
-        this.firsName = firsName;
-        this.lastName = lastName;
-        this.salary = random.nextInt(10000) + 1000;
-        this.department = random.nextInt(2) + 1;
-    }
-
-    public String getFirsName() {
-        return firsName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
 
     @Override
     public boolean equals(Object o) {

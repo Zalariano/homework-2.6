@@ -1,10 +1,11 @@
-package pro.sky.homeworkexercises.homework26;
+package pro.sky.homeworkexercises.homework26.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pro.sky.homeworkexercises.homework26.service.DepartmentService;
+import pro.sky.homeworkexercises.homework26.Employe;
+import pro.sky.homeworkexercises.homework26.service.DepartmentServiceImpl;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.Map;
 @RequestMapping("/departments")
 public class DepartmentController {
 
-    private final DepartmentService departmentService;
+    private final DepartmentServiceImpl departmentService;
 
-    public DepartmentController(DepartmentService departmentService) {
+    public DepartmentController(DepartmentServiceImpl departmentService) {
         this.departmentService = departmentService;
     }
 
@@ -30,11 +31,7 @@ public class DepartmentController {
         return departmentService.getEmployeWithMinSalary(departmentId);
     }
 @GetMapping(value = "/all",params = {"departmentId"})
-    public Collection<Employe> getEmployes(@RequestParam Integer departmentId) {
-        return departmentService.getEmployes(departmentId);
-    }
-    @GetMapping("/all")
-    public Map<Integer, List<Employe>> getEmployes(){
-        return departmentService.getEmploye();
+    public Map<Integer, List<Employe>> getEmployes(@RequestParam Integer departmentId) {
+        return departmentService.getEmployesByDepartment(departmentId);
     }
 }

@@ -14,10 +14,10 @@ import java.util.*;
 
 public class EmployeService {
 
-    private final static int MAX_SIZE = 10;
-    private final Map<String, Employe> employes = new HashMap<>();
+    private final static int MAX_SIZE = 2;
+    private final List<Employe> employes = new ArrayList<>();
 
-    public Employe add(String firstName, String lastName) {
+    public Employe add(String firstName, String lastName,int salary,int departmentId) {
 
         firstName = StringUtils.capitalize(firstName);
         lastName = StringUtils.capitalize(lastName);
@@ -25,48 +25,51 @@ public class EmployeService {
         validateFirstAndLastName(firstName, lastName);
 
 
-        if (employes.size() > MAX_SIZE) {
+        if (employes.size() >= MAX_SIZE) {
             throw new EmployeeStorageIsFullException("Массив сотрудников переполнен");
         }
-        String key = getKey(firstName, lastName);
-        if (employes.containsKey(key)) {
+        Employe newEmploye = new Employe(firstName, lastName, salary, departmentId);
+
+        if (employes.contains(newEmploye)) {
             throw new EmployeeAlreadyAddedException("Сотрудник уже добавлен");
         }
-        Employe newEmploye = new Employe(firstName, lastName);
-        employes.put(key, newEmploye);
+        employes.add(newEmploye);
         return newEmploye;
     }
 
-    public Employe delete(String firstName, String lastName) {
+    public Employe delete(String firstName, String lastName,int salary,int departmentId) {
         firstName = StringUtils.capitalize(firstName);
         lastName = StringUtils.capitalize(lastName);
 
         validateFirstAndLastName(firstName, lastName);
 
-        String key = getKey(firstName, lastName);
-        Employe employeForDelete = employes.get(key);
-        if (!employes.containsKey(key)) {
+        Employe employeForDelete = new Employe(firstName, lastName, salary, departmentId);
+        boolean removeResult = employes.remove(employeForDelete);
+        if (removeResult) {
+            return employeForDelete;
+        } else {
             throw new EmployeeNotFoundException("Такого сотрудника нет в списке");
         }
-        employes.remove(key);
-        return employeForDelete;
     }
 
-    public Employe find(String firstName, String lastName) {
+    public Employe find(String firstName, String lastName,int salary,int departmentId) {
         firstName = StringUtils.capitalize(firstName);
         lastName = StringUtils.capitalize(lastName);
 
         validateFirstAndLastName(firstName, lastName);
 
-        String key = getKey(firstName, lastName);
-        if (!employes.containsKey(key)) {
-            throw new EmployeeNotFoundException("Такого сотрудника нет в списке");
+        Employe employeeForFound = new Employe(firstName, lastName, salary, departmentId);
+        for (Employe e : employes) {
+            if (e.equals(employeeForFound)) {
+                return e;
+            }
         }
-        return employes.get(key);
+
+        throw new EmployeeNotFoundException("Такого сотрудника нет в списке");
     }
 
-    public Collection<Employe> getAll() {
-        return employes.values();
+    public List<Employe> getAll() {
+        return employes;
     }
 
     public String getKey(String firstName, String lastName) {
